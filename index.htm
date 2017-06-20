@@ -3,6 +3,7 @@
 <head>
 
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>WherEp</title>
 
 	<style>
@@ -22,6 +23,15 @@
 			border-width: thick;
 		}
 
+		.col-sm-15 {
+			background-color: #000000;
+			
+			text-align: left;
+			border-style: ridge;
+			border-color: #62468B;
+			border-width: thick;
+		}
+
 		.btn-sm {
 			margin: 10px;
 			align-self: center;
@@ -31,10 +41,7 @@
 
 		ul {
 			list-style-type: none;
-		}
-
-
-		
+		}	
 	</style>
 
 	
@@ -83,25 +90,48 @@
 
 
     	<ul class="container">
-    		<br>
-    		<br>
 
-    		<h2>User Profile</h2>
+    		<br><br>
+    		<li ng-show="sl.detailSerie != null">
+    			<div class="col-sm-15">
+					<br><br>
+					<h1>{{sl.detailSerie.title}}</h1>
+					<img src="{{sl.detailSerie.urlCover}}">
+					<p>Plot: {{sl.detailSerie.sinopse}}</p>
+					Genre: {{sl.detailSerie.genre}}
+					<br><br>
+					Total Seasons: {{sl.detailSerie.totalSeasons}}
+					<br><br>
+					Year: {{sl.detailSerie.year}}
+					<br><br>
+					Rated: {{sl.detailSerie.rated}}
+					<br><br>
+					Rating: {{sl.detailSerie.rating}}
+					<br><br>
+    			</div>
+    		</li>
+
+    		<br><br>
+    		<h2>I'm watching...</h2>
     		<div class="row">
 	    		<li class="col-sm-3" ng-repeat="serie in sl.returnProfile()">
-	    				<br>
-	    				<br>
-		    			<h5>{{serie.title}}</h5>
-		    			<img src="{{serie.urlCover}}" class="img-responsive" width="200" height="240">
-		    			<br>
-		    			<div>
-		    				Year: {{serie.year}}
-		    			</div> 			
-		    			<br>
-		    			<br>
-		    			<br>
+    				<br>
+    				<br>
+	    			<h5>{{serie.title}}</h5>
+	    			<img src="{{serie.urlCover}}" class="img-responsive" width="200" height="240">
+	    			<br>
+	    			<div>
+	    				Year: {{serie.year}}
+	    			</div> 			
+	    			<br>
+	  				<button class="btn btn-default btn-sm" ng-click="sl.showDetails(serie.id)">Details</button>
+	    			<br>
+	    			<br>
 	    		</li>
     		</div>
+
+
+    		
     	</ul>
 
 
@@ -115,6 +145,5 @@
 	<script src="lib/bootstrap.css"></script>
 	<script src="js/buscaAPI.js"></script>
 	<link rel="stylesheet" type "text/css" href="lib/bootstrap.css">
-
 
 </html>

@@ -10,12 +10,14 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 
 
 		$http.get(urlAPI).then(function(responce) {
+
+			
 			var list = responce.data.Search.map(function(serieAPI) {
 				return {
 					title: serieAPI.Title,
 					urlCover: serieAPI.Poster,
 					year: serieAPI.Year,
-					id: seriesAPI.imdbID
+					id: serieAPI.imdbID
 				} 
 			});
 
@@ -27,6 +29,33 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 		return result.promise;
 
 	}
+
+	service.SearchDetails = function(id) {
+
+		var result = $q.defer();
+
+		var urlAPI = "http://www.omdbapi.com/?apikey=93330d3c&i=" + id;
+
+		$http.get(urlAPI).then(function(responce) {
+			var list = {
+					title: responce.data.Title,
+					urlCover: responce.data.Poster,
+					sinopse: responce.data.Plot,
+					rated: responce.data.Rated,
+					rating: responce.data.imdbRating,
+					genre: responce.data.Genre,
+					totalSeasons: responce.data.totalSeasons,
+					year: responce.data.Year
+				}
+
+			result.resolve(list);
+		}, function() {
+			result.reject();
+		});
+
+		return result.promise
+	}
+
 });
 
 
@@ -35,13 +64,23 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 	var controller = this;
 	controller.title = "Search for...";
 	controller.textSearch = null;
+	controller.detailSerie = null;
 	
 
 	controller.Search = function() {
 		SearchAPI.Search(controller.textSearch).then(function(list) {
-			controller.list = list;
-			console.log(list); 
+			controller.list = list; 
+			controller.detailSerie = null;
 		}) 
+	}
+
+
+	controller.showDetails = function(id) {
+		SearchAPI.SearchDetails(id).then(function(details) {
+			controller.detailSerie = details;
+			console.log(detailSerie);
+		})
+
 	}
 
 	var profile = [];
@@ -53,7 +92,6 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 		
 		if(profile.includes(serie) == false) {
 			profile.push(angular.copy(serie));
-			console.log(profile);
 			controller.list = []
 		}
 	}
@@ -69,7 +107,6 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 		watchlist.push(angular.copy(serie));
 		console.log(watchlist);
 	}
-
 	
 
 })
