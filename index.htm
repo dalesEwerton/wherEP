@@ -9,14 +9,31 @@
 
 		.fancy {
 			font-family: cursive;
-			color: black;
+			color: white;
 			background-color: black;
 		}
 
-		.col-sm-4 {
-			background-color: #f5f3f3;
-			margin: 10px;
+		.col-sm-3 {
+			background-color: #000000;
+			margin: 40px;
+			text-align: center;
+			border-style: ridge;
+			border-color: #62468B;
+			border-width: thick;
 		}
+
+		.btn-sm {
+			margin: 10px;
+			align-self: center;
+			background-color: #540FBC;
+			color: white;
+		}
+
+		ul {
+			list-style-type: none;
+		}
+
+
 		
 	</style>
 
@@ -35,7 +52,7 @@
 	    	<div class="input-group">
 	      		<input type="text" ng-model="sl.textSearch" class="form-control" placeholder="Search for...">
 	      		<span class="input-group-btn">
-	        		<button class="btn btn-default" type="button" ng-click="sl.Search();">Go!</button>
+	        		<button class="btn btn-default" type="button" ng-click="sl.Search();">WherEP?</button>
 	      		</span>
 	    	</div>
 	    </div>
@@ -44,17 +61,20 @@
     		<br>
     		<br>
     		<div class="row">
-	    		<li class="col-sm-4 text-center" ng-repeat="serie in sl.list" ng-show="serie.urlCover != null && serie.urlCover != undefined">
+	    		<li class="col-sm-3" ng-repeat="serie in sl.list" ng-show="serie.urlCover != null && serie.urlCover !='N/A'">
+	    				<br>
+	    				<br>
 		    			<h5>{{serie.title}}</h5>
-		    			<img src="{{serie.urlCover}}" class="img-rounded" >
+		    			<img src="{{serie.urlCover}}" class="img-responsive" width="200" height="240">
 		    			<br>
-		    			<div ng-repeat="info in serie.infos">
-		    				{{info.legenda}} : {{info.descript}}	
+		    			<div>
+		    				Year: {{serie.year}}
 		    			</div>
 		    			<div class="btn-group">
-							<button type="button" class="btn btn-primary btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
-							<button type="button" class="btn btn-success btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
 						</div>  			
+		    			<br>
 		    			<br>
 		    			<br>
 	    		</li>
@@ -62,27 +82,26 @@
     	</ul>
 
 
-    	<ul>
-    		
+    	<ul class="container">
     		<br>
     		<br>
-    		<li>
-    			
-    			<h2>User Profile</h2>
-    			<br>
-    			<div ng-repeat="serie in sl.returnProfile()">
-    				
-    				<br>
-    				<br>
-    				<h3>{{serie.title}}</h3>
-    				<img src="{{serie.urlCover}}" class="img-rounded" >
-    				<br>
-    				<div ng-repeat="info in serie.infos">
-    					{{info.legenda}} : {{info.descript}}	
-    				</div>
-    				
-    			</div>
-    		</li>
+
+    		<h2>User Profile</h2>
+    		<div class="row">
+	    		<li class="col-sm-3" ng-repeat="serie in sl.returnProfile()">
+	    				<br>
+	    				<br>
+		    			<h5>{{serie.title}}</h5>
+		    			<img src="{{serie.urlCover}}" class="img-responsive" width="200" height="240">
+		    			<br>
+		    			<div>
+		    				Year: {{serie.year}}
+		    			</div> 			
+		    			<br>
+		    			<br>
+		    			<br>
+	    		</li>
+    		</div>
     	</ul>
 
 

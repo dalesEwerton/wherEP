@@ -6,20 +6,16 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 	service.Search = function(sName) {
 		var result = $q.defer();
 
-		var urlAPI = "http://essearch.allocine.net/br/autocomplete?q=" + sName;
+		var urlAPI = "https://omdbapi.com/?apikey=93330d3c&type=series&s=" + sName;
+
 
 		$http.get(urlAPI).then(function(responce) {
-
-			var list = responce.data.map(function(serieAPI) {
+			var list = responce.data.Search.map(function(serieAPI) {
 				return {
-					title: (serieAPI.title1)? serieAPI.title1 : serieAPI.title2,
-					urlCover: serieAPI.thumbnail,
-					infos: serieAPI.metadata.map(function(metadataAPI) {
-						return {
-							legenda: metadataAPI.property,
-							descript: metadataAPI.value
-						}
-					})
+					title: serieAPI.Title,
+					urlCover: serieAPI.Poster,
+					year: serieAPI.Year,
+					id: seriesAPI.imdbID
 				} 
 			});
 
