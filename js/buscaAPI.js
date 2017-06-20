@@ -58,6 +58,7 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 		if(profile.includes(serie) == false) {
 			profile.push(angular.copy(serie));
 			console.log(profile);
+			controller.list = []
 		}
 	}
 
