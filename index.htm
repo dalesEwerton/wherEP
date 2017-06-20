@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<title>WherEp</title>
+
+	<style>
+
+		.fancy {
+			font-family: cursive;
+			color: white;
+			background-color: black;
+		}
+		
+	</style>
+
+	
+</head>
+
+<body class="fancy" ng-app="SeriesApi">
+
+	<div class="col-md-12 text-center">
+		<img src="images/Logo.png">
+		
+	</div>
+
+	<div class="jumbotron" ng-controller="UserController as sl">
+		<div class="container">
+	    	<div class="input-group">
+	      		<input type="text" ng-model="sl.textSearch" class="form-control" placeholder="Search for...">
+	      		<span class="input-group-btn">
+	        		<button class="btn btn-default" type="button" ng-click="sl.Search();">Go!</button>
+	      		</span>
+	    	</div>
+	    </div>
+    	
+    	<ul>
+    		<br>
+    		<br>
+    		<li ng-repeat="serie in sl.list" ng-show="serie.urlCover != null && serie.urlCover != undefined">
+    			
+    			<h3>{{serie.title}}</h3>
+    			<img src="{{serie.urlCover}}" class="img-rounded" >
+    			<br>
+    			<div ng-repeat="info in serie.infos">
+    				{{info.legenda}} : {{info.descript}}	
+    			</div>
+    			<div class="btn-group">
+					<button type="button" class="btn btn-primary btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
+					<button type="button" class="btn btn-success btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
+				</div>  			
+    			<br>
+    			<br>
+    		</li>
+    	</ul>
+
+
+    	<ul>
+    		
+    		<br>
+    		<br>
+    		<li>
+    			
+    			<h2>User Profile</h2>
+    			<br>
+    			<div ng-repeat="serie in sl.returnProfile()">
+    				
+    				<br>
+    				<br>
+    				<h3>{{serie.title}}</h3>
+    				<img src="{{serie.urlCover}}" class="img-rounded" >
+    				<br>
+    				<div ng-repeat="info in serie.infos">
+    					{{info.legenda}} : {{info.descript}}	
+    				</div>
+    				
+    			</div>
+    		</li>
+    	</ul>
+
+
+    	
+	</div>
+	
+</body>
+
+	
+	<script src="lib/angular.js"</script>
+	<script src="lib/bootstrap.css"></script>
+	<script src="js/buscaAPI.js"></script>
+	<link rel="stylesheet" type "text/css" href="lib/bootstrap.css">
+
+
+</html>
