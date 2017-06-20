@@ -9,8 +9,13 @@
 
 		.fancy {
 			font-family: cursive;
-			color: white;
+			color: black;
 			background-color: black;
+		}
+
+		.col-sm-4 {
+			background-color: #f5f3f3;
+			margin: 10px;
 		}
 		
 	</style>
@@ -35,24 +40,25 @@
 	    	</div>
 	    </div>
     	
-    	<ul>
+    	<ul class="container">
     		<br>
     		<br>
-    		<li ng-repeat="serie in sl.list" ng-show="serie.urlCover != null && serie.urlCover != undefined">
-    			
-    			<h3>{{serie.title}}</h3>
-    			<img src="{{serie.urlCover}}" class="img-rounded" >
-    			<br>
-    			<div ng-repeat="info in serie.infos">
-    				{{info.legenda}} : {{info.descript}}	
-    			</div>
-    			<div class="btn-group">
-					<button type="button" class="btn btn-primary btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
-					<button type="button" class="btn btn-success btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
-				</div>  			
-    			<br>
-    			<br>
-    		</li>
+    		<div class="row">
+	    		<li class="col-sm-4 text-center" ng-repeat="serie in sl.list" ng-show="serie.urlCover != null && serie.urlCover != undefined">
+		    			<h5>{{serie.title}}</h5>
+		    			<img src="{{serie.urlCover}}" class="img-rounded" >
+		    			<br>
+		    			<div ng-repeat="info in serie.infos">
+		    				{{info.legenda}} : {{info.descript}}	
+		    			</div>
+		    			<div class="btn-group">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
+							<button type="button" class="btn btn-success btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
+						</div>  			
+		    			<br>
+		    			<br>
+	    		</li>
+    		</div>
     	</ul>
 
 
