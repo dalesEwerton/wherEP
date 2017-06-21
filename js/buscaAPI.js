@@ -68,7 +68,6 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 	var controller = this;
 	controller.title = "Search for...";
 	controller.textSearch = null;
-	controller.detailSerie = null;
 	
 
 	controller.Search = function() {
@@ -76,15 +75,6 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 			controller.list = list; 
 			controller.detailSerie = null;
 		}) 
-	}
-
-
-	controller.showDetails = function(id) {
-		SearchAPI.SearchDetails(id).then(function(details) {
-			controller.detailSerie = details;
-			console.log(detailSerie); 
-		})
-
 	}
 
 	var profile = [];
@@ -125,10 +115,30 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 		watchlist.push(angular.copy(serie));
 		console.log(watchlist);
 	}
+
 	
+	controller.openModal = function () {
+
+		var modal = document.getElementById("myModal");
+
+		var btn = document.getElementById("DetailButton");
+
+		var span = document.getElementsByClassName("close")[0];
+
+		btn.onclick = function() {
+		    modal.style.display = "block";
+		}
+
+	
+		span.onclick = function() {
+		    modal.style.display = "none";
+		}
+
+		window.onclick = function(event) {
+		    if (event.target == modal) {
+		        modal.style.display = "none";
+		    }
+		}
+	}	
 
 })
-
-
-
-
