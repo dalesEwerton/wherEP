@@ -17,7 +17,9 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 					title: serieAPI.Title,
 					urlCover: serieAPI.Poster,
 					year: serieAPI.Year,
-					id: serieAPI.imdbID
+					id: serieAPI.imdbID,
+					userRate: "N/A",
+					lastEp: "N/A"
 				} 
 			});
 
@@ -37,6 +39,7 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 		var urlAPI = "http://www.omdbapi.com/?apikey=93330d3c&i=" + id;
 
 		$http.get(urlAPI).then(function(responce) {
+			
 			var list = {
 					title: responce.data.Title,
 					urlCover: responce.data.Poster,
@@ -45,6 +48,7 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 					rating: responce.data.imdbRating,
 					genre: responce.data.Genre,
 					totalSeasons: responce.data.totalSeasons,
+					id: responce.data.imdbID,
 					year: responce.data.Year
 				}
 
@@ -78,7 +82,7 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 	controller.showDetails = function(id) {
 		SearchAPI.SearchDetails(id).then(function(details) {
 			controller.detailSerie = details;
-			console.log(detailSerie);
+			console.log(detailSerie); 
 		})
 
 	}
@@ -86,19 +90,33 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 	var profile = [];
 
 
-	controller.addToProfile = function(serie) {
+	controller.addToProfile = function(id) {
 
-		var add = true;
+		SearchAPI.SearchDetails(id).then(function(sDetail) {
+			profile.push(sDetail);
+		})
 		
-		if(profile.includes(serie) == false) {
-			profile.push(angular.copy(serie));
-			controller.list = []
-		}
+		controller.list = []
+		
 	}
 
 
 	controller.returnProfile = function() {
 		return profile;
+	}
+
+	controller.removeFromProfile = function(id) {
+		var conf = confirm("Do you really want to remove the serie from profile?");
+		console.log(id);
+
+		if(conf) {
+			for (var i = profile.length - 1; i >= 0; i--) {
+				console.log(profile[i]);
+				if (profile[i].id == id) {
+					profile.splice(i, 1);
+				}
+			};
+		}
 	}
 
 	var watchlist = [];

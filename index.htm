@@ -79,7 +79,7 @@
 		    			</div>
 		    			<div class="btn-group">
 							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
-							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToProfile(serie)">To Profile</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToProfile(serie.id)">To Profile</button>
 						</div>  			
 		    			<br>
 		    			<br>
@@ -124,7 +124,10 @@
 	    				Year: {{serie.year}}
 	    			</div> 			
 	    			<br>
-	  				<button class="btn btn-default btn-sm" ng-click="sl.showDetails(serie.id)">Details</button>
+	    			<div class="btn-group">
+	  					<button class="btn btn-default btn-sm" ng-click="sl.showDetails(serie.id)">Details</button>
+	    				<button class="btn btn-default btn-sm" ng-click="sl.removeFromProfile(serie.id)">Remove</button>
+	    			</div>
 	    			<br>
 	    			<br>
 	    		</li>
