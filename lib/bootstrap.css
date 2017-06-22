@@ -2739,8 +2739,9 @@ fieldset[disabled] a.btn {
 
 .btn-info {
   color: #fff;
-  background-color: #5bc0de;
-  border-color: #5bc0de;
+  background-color: #0B1AC0;
+  border-color: #1427FF;
+  float: right;
 }
 
 .btn-info:hover {
@@ -5415,8 +5416,9 @@ button.close {
   left: 0;
   z-index: 1050;
   display: none;
-  overflow: hidden;
+  overflow: auto;
   outline: 0;
+  
 }
 
 .modal.fade .modal-dialog {

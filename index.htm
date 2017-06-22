@@ -13,6 +13,13 @@
 			color: white;
 			background-color: black;
 		}
+		.col-sm-2 {
+			margin: 40px;
+			text-align: center;
+			border-style: ridge;
+			border-color: #62468B;
+			border-width: thick;
+		}
 
 		.col-sm-3 {
 			background-color: #000000;
@@ -43,99 +50,94 @@
 			list-style-type: none;
 		}
 
-
-		.modal {
-			display: none; /* Hidden by default */
-			position: fixed; /* Stay in place */
-			z-index: 1; /* Sit on top */
-			padding-top: 100px; /* Location of the box */
-			left: 0;
-			top: 0;
-			width: 100%; /* Full width */
-			height: 100%; /* Full height */
-			overflow: auto; /* Enable scroll if needed */
-			background-color: rgb(0,0,0); /* Fallback color */
-			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-			}
-
-			/* Modal Content */
-			.modal-content {
-			position: relative;
-			background-color: #fefefe;
-			margin: auto;
-			padding: 0;
-			border: 1px solid #888;
-			width: 80%;
-			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-			-webkit-animation-name: animatetop;
-			-webkit-animation-duration: 0.4s;
-			animation-name: animatetop;
-			animation-duration: 0.4s
-			}
-
-			/* Add Animation */
-			@-webkit-keyframes animatetop {
-			from {top:-300px; opacity:0} 
-			to {top:0; opacity:1}
-			}
-
-			@keyframes animatetop {
-			from {top:-300px; opacity:0}
-			to {top:0; opacity:1}
-			}
-
-			/* The Close Button */
-			.close {
+		.close {
 			color: white;
 			float: right;
 			font-size: 28px;
 			font-weight: bold;
-			}
-
-			.close:hover,
-			.close:focus {
+		}
+		
+		.close:hover,
+		.close:focus {
 			color: #000;
 			text-decoration: none;
 			cursor: pointer;
-			}
+		}
 
-			.modal-header {
+		.modal {
+			color: black;
+			padding: 60px;
+
+		}
+
+		.modal-header{
 			padding: 2px 16px;
 			background-color: #540FBC;
-			color: white;
-			}
+			color: black;
+			border-color: #62468B;
+			border-width: thick;
+		}
 
-			.modal-body {
+		.modal-body {
+			background-color: white;
+			color: black;
 
-				padding: 2px 16px;
-				color: black;
+		}
 
-			}
-
-			.modal-footer {
+		.modal-footer {
 			padding: 2px 16px;
 			background-color: #540FBC;
-			color: white;
-			}	
-	
+			color: black;
+		}
+
 	</style>
 
 	
 </head>
 
-<body class="fancy" ng-app="SeriesApi">
+<body class="fancy" ng-app="SeriesApi" ng-controller="UserController as sl">
 
 	<div class="col-md-12 text-center">
-		<img src="images/Logo.png">
-		
+		<img src="images/Logo.png">	
 	</div>
 
-	<div class="jumbotron" ng-controller="UserController as sl">
+	<div>
+		<button class="btn btn-info" ng-click="sl.openModal('watchlist', 0)">Go to Watchlist...</button>
+
+		<div id="watchlist" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close">&times;</span>
+					<h2>Watchlist</h2>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+		      		<li class="col-sm-2" ng-repeat="serie in sl.returnWatchlist()">
+		      			{{serie.title}}
+		      			<br>
+		      			<img src="{{serie.urlCover}}" width="100" height="140>">
+		      			<br><br>
+		      			<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToProfileFromWathclist(serie.id)">To Profile</button>
+		      		</li>
+		      		</div>
+		      			
+			        
+				</div>
+				<div class="modal-footer">
+					<h3>WherEP</h3>
+				</div>
+			</div>
+    	</div>
+	</div>
+		
+	<div class="jumbotron">
+
+		
 		<div class="container">
 	    	<div class="input-group">
 	      		<input type="text" ng-model="sl.textSearch" class="form-control" placeholder="Search for...">
 	      		<span class="input-group-btn">
-	        		<button class="btn btn-default" type="button" ng-click="sl.Search();">WherEP?</button>
+	        		<button class="btn btn-info" type="button" ng-click="sl.Search();">WherEP?</button>
 	      		</span>
 	    	</div>
 	    </div>
@@ -154,7 +156,7 @@
 		    				Year: {{serie.year}}
 		    			</div>
 		    			<div class="btn-group">
-							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToWatchlist(serie)">Whatchlist</button>
+							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToWatchlist(serie.id)">Whatchlist</button>
 							<button type="button" class="btn btn-default btn-sm" ng-click="sl.addToProfile(serie.id)">To Profile</button>
 						</div>  			
 		    			<br>
@@ -180,13 +182,13 @@
 	    			</div> 			
 	    			<br>
 	    			<div class="btn-group">
-	  					<button class="btn btn-default btn-sm" id="DetailButton" ng-click="sl.openModal()">Details</button>
+	  					<button class="btn btn-default btn-sm" id="DetailButton" ng-click="sl.openModal('detail'+$index, $index)">Details</button>
 	    				<button class="btn btn-default btn-sm" ng-click="sl.removeFromProfile(serie.id)">Remove</button>
 	    			</div>
 	    			<br>
 	    			<br>
-	    			<div id="myModal" class="modal">
-
+	    			
+	    			<div id="detail{{$index}}" class="modal">
 						<div class="modal-content">
 						    <div class="modal-header">
 						      <span class="close">&times;</span>
@@ -205,6 +207,16 @@
 								<br><br>
 								Rating: {{serie.rating}}
 								<br><br>
+								<div>
+									<div class="form-group">
+									Last Ep : 
+									<input type="myEp" class="form-horizontal" ng-model="serie.lastEp" placeholder="{{serie.lastEp}}">
+									<br>
+									<br>
+									My Rate: 
+									<input type="text" class="form-horizontal" ng-model="serie.userRate" placeholder="{{serie.userRate}}">
+									</div>
+								</div>
 					    	</div>
 							<div class="modal-footer">
 						     	<h3>WherEP</h3>
@@ -224,6 +236,7 @@
 	<script src="lib/angular.js"</script>
 	<script src="lib/bootstrap.css"></script>
 	<script src="js/buscaAPI.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" type "text/css" href="lib/bootstrap.css">
 
 </html>

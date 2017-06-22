@@ -18,8 +18,6 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 					urlCover: serieAPI.Poster,
 					year: serieAPI.Year,
 					id: serieAPI.imdbID,
-					userRate: "N/A",
-					lastEp: "N/A"
 				} 
 			});
 
@@ -49,7 +47,9 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 					genre: responce.data.Genre,
 					totalSeasons: responce.data.totalSeasons,
 					id: responce.data.imdbID,
-					year: responce.data.Year
+					year: responce.data.Year,
+					userRate: "N/A",
+					lastEp: "N/A"
 				}
 
 			result.resolve(list);
@@ -82,10 +82,22 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 
 	controller.addToProfile = function(id) {
 
-		SearchAPI.SearchDetails(id).then(function(sDetail) {
-			profile.push(sDetail);
-		})
-		
+		var insert = true;
+
+		for (var i = profile.length - 1; i >= 0; i--) {
+			if(profile[i].id == id) {
+				insert = false;
+				break;
+			}
+		}
+
+		if(insert) {
+			SearchAPI.SearchDetails(id).then(function(sDetail) {
+				profile.push(sDetail);
+			})
+		}else {
+			alert("This serie is already in your profile!");
+		}
 		controller.list = []
 		
 	}
@@ -97,11 +109,9 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 
 	controller.removeFromProfile = function(id) {
 		var conf = confirm("Do you really want to remove the serie from profile?");
-		console.log(id);
 
 		if(conf) {
 			for (var i = profile.length - 1; i >= 0; i--) {
-				console.log(profile[i]);
 				if (profile[i].id == id) {
 					profile.splice(i, 1);
 				}
@@ -111,25 +121,57 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 
 	var watchlist = [];
 
-	controller.addToWatchlist = function(serie) {
-		watchlist.push(angular.copy(serie));
-		console.log(watchlist);
+	controller.addToWatchlist = function(id) {
+		var insert = true;
+
+		for (var i = watchlist.length - 1; i >= 0; i--) {
+			if(watchlist[i].id == id) {
+				insert = false;
+				break;
+			}
+		}
+
+		if(insert) {
+			SearchAPI.SearchDetails(id).then(function(sDetail) {
+				watchlist.push(sDetail);
+			})
+
+		}else {
+			alert("This serie is already in your watchlist!");
+		}
+
+		controller.list = []
+	}
+
+	controller.addToProfileFromWathclist = function (id) {
+		controller.addToProfile(id);
+		controller.removeFromWatchlist(id);
+	}
+
+	controller.removeFromWatchlist = function(id) {
+		
+		for (var i = watchlist.length - 1; i >= 0; i--) {
+				if (watchlist[i].id == id) {
+					console.log("Oi");
+					watchlist.splice(i, 1);
+				}
+		};
+	}
+
+	controller.returnWatchlist = function() {
+		return watchlist;
 	}
 
 	
-	controller.openModal = function () {
+	controller.openModal = function (modalId, index) {
 
-		var modal = document.getElementById("myModal");
-
-		var btn = document.getElementById("DetailButton");
-
-		var span = document.getElementsByClassName("close")[0];
-
-		btn.onclick = function() {
-		    modal.style.display = "block";
-		}
-
+		console.log(modalId);
+		var modal = document.getElementById(modalId);
 	
+		var span = document.getElementsByClassName("close")[index];
+		
+		modal.style.display = "block";
+
 		span.onclick = function() {
 		    modal.style.display = "none";
 		}
