@@ -12,6 +12,7 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 		$http.get(urlAPI).then(function(responce) {
 
 			
+			try{
 			var list = responce.data.Search.map(function(serieAPI) {
 				return {
 					title: serieAPI.Title,
@@ -20,6 +21,9 @@ seriesAPI.service("SearchAPI", function($http, $q) {
 					id: serieAPI.imdbID,
 				} 
 			});
+			}catch(err) {
+				alert("No results for " +sName);
+			} 
 
 			result.resolve(list);
 		}, function() {
@@ -72,9 +76,9 @@ seriesAPI.controller("UserController", function(SearchAPI) {
 
 	controller.Search = function() {
 		SearchAPI.Search(controller.textSearch).then(function(list) {
-			controller.list = list; 
-			controller.detailSerie = null;
-		}) 
+		controller.list = list; 
+		})	
+		 
 	}
 
 	var profile = [];
